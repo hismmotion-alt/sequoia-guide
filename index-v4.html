@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sequoia Explorer Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Patrick+Hand&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Fredoka',sans-serif;background:#1a3c2a;min-height:100vh;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;padding:16px;min-height:100vh}
+.header{text-align:center;padding:24px 0 14px}
+.header h1{font-size:26px;font-weight:700;color:#a8e6cf;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.header p{font-size:13px;color:#6dbb91;margin-top:4px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:10px;background:rgba(168,230,207,0.2);font-size:11px;color:#a8e6cf;margin-top:8px;border:1px solid rgba(168,230,207,0.3)}
+.progress{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,0.08);border-radius:14px;margin-bottom:14px}
+.progress-bar{flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#a8e6cf,#ffd3b6);border-radius:4px;transition:width 0.5s}
+.progress-text{font-size:12px;color:#6dbb91;font-weight:500}
+.pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex-shrink:0;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;border:none;cursor:pointer;background:rgba(255,255,255,0.08);color:#6dbb91;transition:all 0.3s}
+.pill.active{background:#a8e6cf;color:#1a3c2a;transform:scale(1.05)}
+.pill.visited{background:rgba(168,230,207,0.2);color:#a8e6cf}
+.card{background:rgba(255,255,255,0.95);border-radius:24px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.3);animation:fadeIn 0.4s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hero{padding:28px 24px 20px}
+.hero-emoji{font-size:48px;margin-bottom:12px}
+.hero-num{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;opacity:0.5;margin-bottom:4px}
+.hero-title{font-size:22px;font-weight:700;color:#1a3c2a;line-height:1.2}
+.hero-sub{font-size:13px;color:#5a8a6e;margin-top:4px}
+.body{padding:0 24px 24px}
+.play-all{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:16px;border:2px solid #a8e6cf;background:linear-gradient(135deg,#f0faf4,#e8f5ee);cursor:pointer;font-family:inherit;font-size:15px;font-weight:600;color:#2a6b3c;margin-bottom:8px;transition:all 0.2s}
+.play-all:active{transform:scale(0.97)}
+.play-all.active{background:#a8e6cf;color:#1a3c2a}
+.status{text-align:center;font-size:12px;padding:8px 12px;margin-bottom:8px;border-radius:10px;display:none;line-height:1.4}
+.status.show{display:block}
+.status.ok{color:#6dbb91;background:rgba(168,230,207,0.1)}
+.status.err{color:#ff9999;background:rgba(255,100,100,0.1)}
+.status.waiting{color:#856404;background:#fff8e8;border:2px solid #ffc107;font-weight:600;font-size:14px;animation:glow 1.5s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(255,193,7,0.3)}50%{box-shadow:0 0 0 8px rgba(255,193,7,0)}}
+.voice-select{display:flex;gap:6px;overflow-x:auto;margin-bottom:16px}
+.voice-select::-webkit-scrollbar{display:none}
+.vbtn{flex-shrink:0;padding:5px 12px;border-radius:10px;border:1.5px solid rgba(168,230,207,0.3);background:rgba(255,255,255,0.06);font-family:inherit;font-size:11px;font-weight:500;color:#6dbb91;cursor:pointer}
+.vbtn.active{background:rgba(168,230,207,0.2);border-color:#a8e6cf;color:#a8e6cf}
+.narration{background:linear-gradient(135deg,#f0faf4,#e8f5ee);border-radius:16px;padding:16px 18px;margin-bottom:16px;border:2px solid transparent;transition:all 0.3s}
+.narration.speaking{border-color:#a8e6cf;box-shadow:0 0 16px rgba(168,230,207,0.3)}
+.nar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.nar-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#5a8a6e}
+.play-btn{padding:6px 14px;border-radius:14px;border:2px solid #a8e6cf;background:#fff;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;color:#2a6b3c}
+.play-btn.active{background:#a8e6cf;color:#1a3c2a}
+.narration p{font-family:'Patrick Hand',cursive;font-size:17px;color:#2a5a3c;line-height:1.7}
+.fact{background:#fff8e8;border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;border:2px solid #ffe4a8;cursor:pointer;transition:all 0.3s}
+.fact.speaking{border-color:#a8e6cf;box-shadow:0 0 12px rgba(168,230,207,0.2)}
+.fact p{font-size:14px;color:#6b5620;line-height:1.5}
+.fact strong{font-weight:600;color:#4a3a10}
+.quiz{background:#f0f0ff;border-radius:16px;padding:16px 18px;margin-bottom:12px;border:2px solid #d4d4ff;transition:all 0.3s}
+.quiz.speaking{border-color:#a8e6cf;box-shadow:0 0 16px rgba(168,230,207,0.3)}
+.quiz.waiting-answer{border-color:#ffc107;box-shadow:0 0 16px rgba(255,193,7,0.3);animation:glow 1.5s infinite}
+.quiz-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#6b6baa;margin-bottom:8px}
+.quiz-q{font-size:15px;font-weight:600;color:#3a3a6b;margin-bottom:12px;line-height:1.4}
+.qbtn{display:block;width:100%;padding:10px 14px;border-radius:12px;border:2px solid #d4d4ff;background:#fff;font-family:inherit;font-size:14px;color:#3a3a6b;cursor:pointer;text-align:left;font-weight:500;transition:all 0.2s;margin-bottom:8px}
+.qbtn.correct{background:#d4ffd4;border-color:#4CAF50;color:#2a6b2a}
+.qbtn.wrong{background:#ffd4d4;border-color:#e57373;color:#6b2a2a}
+.qbtn:disabled{cursor:default}
+.qbtn.pulse{animation:btnpulse 1s infinite}
+@keyframes btnpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02);border-color:#ffc107}}
+.quiz-result{margin-top:4px;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:500}
+.activity{background:#fff0f5;border-radius:16px;padding:14px 16px;margin-bottom:10px;border:2px solid #ffcce0;cursor:pointer;transition:all 0.3s}
+.activity.speaking{border-color:#a8e6cf}
+.act-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#aa5a7a;margin-bottom:6px}
+.activity p{font-size:14px;color:#6b3050;line-height:1.5}
+.nav{display:flex;gap:10px;margin-top:16px;padding-bottom:60px}
+.nav button{flex:1;padding:14px;border-radius:16px;border:none;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.nav .prev{background:rgba(255,255,255,0.1);color:#a8e6cf}
+.nav .next{background:#a8e6cf;color:#1a3c2a;box-shadow:0 4px 16px rgba(168,230,207,0.3)}
+.nav button:disabled{opacity:0.3;cursor:default}
+.score{position:fixed;bottom:16px;right:16px;background:linear-gradient(135deg,#ffd700,#ffaa00);color:#4a3a10;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:600;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<div class="score" id="scoreBadge">⭐ 0 pts</div>
+<audio id="persistentAudio" playsinline></audio>
+<script>
+const CFG={apiKey:"sk_7c940812c741e36d24a0e90777e283fda59477a331cfc480",voices:[{id:"21m00Tcm4TlvDq8ikWAM",name:"Rachel"},{id:"EXAVITQu4vr4xnSDxMaL",name:"Sarah"},{id:"pNInz6obpgDQGcFmaJgB",name:"Adam"},{id:"TxGEqnHWrfWFTfGW9XjX",name:"Josh"},{id:"ThT5KcBeYPX3keUQqHPh",name:"Dorothy"},{id:"VJwFZoxTZo5aI0IowiXA",name:"Your voice"}],activeVoice:0};
+
+const stops=[
+{emoji:"🚗",name:"The adventure begins!",sub:"What we're about to see",color:"#d4edda",
+nar:"Hey explorers! Welcome to the Sequoia Explorer Guide! While we drive, I'm going to tell you all about the incredible things we're about to see today. We're heading to Sequoia National Park, and you are NOT going to believe what's waiting for us there. We're going to see the BIGGEST trees in the entire world! They're called Giant Sequoias, and some of them have been alive for over 3,000 years. That means these trees were already growing when the ancient Egyptians were building the pyramids! These trees are SO big that if you could hollow one out, you could park a car inside the trunk. We're going to walk right up to them and touch them. And we're going to climb a giant rock with 350 stairs to the top, where you can see for a hundred miles! But first, let me tell you some secrets about these amazing trees so you know exactly what to look for when we get there.",
+facts:[{i:"🌲",t:"Giant Sequoias only grow in ONE place on Earth — <strong>California</strong>! There are only 75 groves in the whole world, and we're about to visit the most famous one."},{i:"🌱",t:"Here's something crazy — a sequoia seed is <strong>tinier than a cornflake</strong>. But somehow, it grows into the biggest tree on the planet! Keep your eyes out for tiny cones on the ground when we arrive."}],
+quiz:{q:"Giant Sequoias only grow in one place on Earth. Where is it?",o:["Africa","California","Australia","The North Pole"],c:1,e:"California! Right where we're driving! These trees are so picky about where they grow that nowhere else on the entire planet has the right conditions for them."},
+act:"While we drive, look at the trees outside the window. They're normal sized, right? Now try to imagine a tree that's TWENTY FIVE times taller than those trees. That's what we're about to see! Can you picture it?"},
+
+{emoji:"🪨",name:"Hospital Rock",sub:"Coming up: ancient art!",color:"#f5eedd",
+nar:"OK explorers, our first stop is coming up soon, and it's really special. We're about to visit a place called Hospital Rock. Now, hundreds and hundreds of years ago, long before there were any cars or roads here, a group of people called the Potwisha lived right next to this river. They didn't have stoves or kitchens. Instead, they carved smooth bowls right into the big rocks, and used them to crush acorns into flour to make food! But here's the really cool part. They also painted pictures on the rocks! Real paintings, called pictographs, and some of them are over 500 years old. When we get there, we're going to be detectives and try to find these ancient paintings. They're still there, right on the rocks, just like they left them hundreds of years ago!",
+facts:[{i:"🎨",t:"The Potwisha paintings are called <strong>pictographs</strong>. When you see them, remember, a real person painted those <strong>over 500 years ago</strong>!"},{i:"💧",t:"The river there is called the <strong>Kaweah River</strong>. The name comes from a Native American word. When we arrive, you'll hear the water rushing over the rocks!"}],
+quiz:{q:"What did the Potwisha people carve into the rocks to help them make food?",o:["Tiny kitchens","Smooth bowls for crushing acorns","Ovens for baking","Cups for drinking"],c:1,e:"Smooth bowls! They used them to crush acorns into flour. When we get there, you can actually put your hand inside one of these bowls and feel how smooth it is from thousands of acorns being ground up over the years!"},
+act:"When we arrive at Hospital Rock, your mission is to find as many pictograph shapes on the rock as you can. Start counting as soon as you see the big rocks. Who can find the most shapes? Bring your notebook to draw your favorite one!"},
+
+{emoji:"🕳️",name:"Tunnel Rock",sub:"Coming up: driving through rock!",color:"#dde5f5",
+nar:"You guys are going to LOVE this next one! Coming up soon, there's a place called Tunnel Rock, and we're going to drive our car right through a giant boulder! Here's the story. A long, long time ago, an enormous rock, heavier than 100 elephants, rolled down the mountain and landed right in the middle of the road. Nobody could move it because it was just too heavy. So the workers had a genius idea. They used dynamite and hand tools to carve a tunnel straight through the middle of the rock! When we drive through it, I want you to look up at the ceiling above you. You'll be completely inside solid rock that has been here for millions of years! It's like driving through a stone cave. Get your cameras ready!",
+facts:[{i:"⛏️",t:"Workers had to use <strong>dynamite to blast</strong> and <strong>hand tools to carve</strong> through solid granite. It took a LOT of hard work!"},{i:"🪨",t:"The rock is made of <strong>granite</strong>, one of the hardest rocks on Earth. The same kind of rock the ancient Egyptians used to build monuments!"}],
+quiz:{q:"The boulder that blocks the road is heavier than how many elephants?",o:["5 elephants","20 elephants","More than 100 elephants","1 elephant"],c:2,e:"More than 100 elephants! That's why they couldn't just push it out of the way. They had to blast and carve right through the middle!"},
+act:"When we drive through the tunnel, look up at the rock ceiling and try to touch it if you can reach! After we pass through, look back at the tunnel from the other side. Does it look like a giant mouth?"},
+
+{emoji:"🏛️",name:"Giant Forest Museum",sub:"Coming up: tree secrets!",color:"#d4edda",
+nar:"Alright team, before we go meet the giant trees, we're going to make a stop at the Giant Forest Museum. Think of it like tree detective school! Here's what you need to know before we get there. Giant Sequoias are the pickiest trees on Earth. They ONLY grow in California, nowhere else in the world! They need the perfect recipe: tons of snow in winter, warm dry summers, and they only grow at a very specific height on the mountains. And here's something that'll blow your mind. These giant trees actually NEED forest fires to survive! I know that sounds scary, but the fire clears away all the dead stuff on the ground so their tiny baby seeds have room to grow. And the trees don't get hurt because their bark is up to 3 FEET thick! That's like wearing a suit of armor. At the museum, you're going to see a real cross-section of a tree trunk and count the rings to find out how old it was!",
+facts:[{i:"🔥",t:"Sequoia bark is up to <strong>3 feet thick</strong>. When we see a tree, put your arm next to the bark — the bark is as wide as your whole arm is long!"},{i:"🌱",t:"At the museum, look for a real sequoia <strong>seed</strong>. It's tinier than a cornflake! Try to imagine something that small growing into a 275-foot tree."}],
+quiz:{q:"Why do Giant Sequoias need forest fires?",o:["To stay warm","To clear the ground for baby seeds","To cook their food","They don't need fires"],c:1,e:"The fire clears away dead leaves and branches so the tiny seeds have room to land on bare soil and start growing! Without fire, new sequoias can't grow."},
+act:"At the museum, find the tree cross-section with all the rings. Each ring is one year! Your mission: count the rings to find the year you were born, then the year Mom or Dad was born. How many rings apart are you?"},
+
+{emoji:"🌲",name:"General Sherman Tree",sub:"Coming up: the BIGGEST!",color:"#d9f0dc",
+nar:"OK. Get ready. Because we are about to meet the most amazing living thing you will EVER see in your entire life. It's called General Sherman, and it is the BIGGEST living thing on the ENTIRE PLANET. Not just the biggest tree. The biggest living thing, period! Let me help you picture how big this tree is. Imagine a 25 story building. General Sherman is taller than that! Now imagine 15 blue whales, the biggest animals in the ocean, all stacked together. General Sherman weighs more than all of them combined! And this tree has been alive for over 2,200 years. When ancient Rome was at its most powerful, this tree was already 1,000 years old! When we get there, we're going to walk right up to it. I want you to try to see the very top, but I bet you won't be able to. And then we're going to try something fun. Your whole family is going to hold hands and try to make a circle around the trunk. Spoiler alert: you won't be able to. It takes about 25 people!",
+facts:[{i:"📏",t:"General Sherman is <strong>275 feet tall</strong>. That's taller than the Statue of Liberty! When we get there, try looking from the base all the way to the tip top."},{i:"🌊",t:"Every single year, this tree grows enough <strong>new wood</strong> to build a whole new regular-sized tree. It's still growing RIGHT NOW, even as we drive toward it!"}],
+quiz:{q:"How much does General Sherman, the biggest tree on Earth, weigh?",o:["As much as 10 cars","As much as an airplane","As much as 15 blue whales","As much as the moon"],c:2,e:"About 2.7 million pounds! That's roughly the same as 15 blue whales all together! And it gets a tiny bit heavier every single day because it never stops growing."},
+act:"When we arrive, first try to see the very top of the tree. Can you spot it? Then get your whole family to hold hands and see how far around the trunk you can reach. Remember, it takes 25 people! Also look on the ground for tiny sequoia cones, they're only the size of a chicken egg."},
+
+{emoji:"🧗",name:"Moro Rock",sub:"Coming up: climb to the sky!",color:"#f5dddd",
+nar:"OK explorers, now for an adventure! We're going to visit Moro Rock, a giant dome of granite sticking up into the sky, and we are going to climb all the way to the very top! There are exactly 350 steps carved right into the rock. I know that sounds like a lot, but you guys are tough, and here's what's waiting for you at the top. You'll be able to see for over ONE HUNDRED MILES in every direction! Mountains everywhere, deep valleys, huge forests stretching to the horizon, and sometimes, if we're lucky, you might even see clouds floating BELOW you! The rock itself is made of granite, the same kind of rock the ancient Egyptians used to build the pyramids. So when you put your hands on it, you're touching something really ancient and special. I have a challenge for you too. I want you to count every single step on the way up and tell me the number at the top!",
+facts:[{i:"📐",t:"Moro Rock is <strong>6,725 feet</strong> above sea level. That means when we're at the top, we'll be standing more than <strong>a mile above the ocean</strong>!"},{i:"👀",t:"From the top, we'll see the <strong>Great Western Divide</strong>, a huge wall of mountain peaks. On a clear day, the view stretches over 100 miles!"}],
+quiz:{q:"How many steps will we need to climb to reach the top of Moro Rock?",o:["100 steps","250 steps","350 steps","500 steps"],c:2,e:"Exactly 350! They were hand-carved right into the granite. When we get there, count every single step and see if you get 350!"},
+act:"Climbing challenge! Count every step on the way up. Write down your number at the top. Did you get 350? At the summit, stand very still and listen. Can you hear the wind? Look down. Can you see the tops of the trees far below?"},
+
+{emoji:"🚙",name:"Tunnel Log",sub:"Coming up: drive through a tree!",color:"#dde8f5",
+nar:"Here comes something you are going to tell all your friends about. We're going to drive our car right through the middle of a TREE! Here's what happened. Back in 1937, almost 90 years ago, a giant sequoia tree fell down during a huge storm. This tree had been alive for over a thousand years! When it fell across the road, the park rangers had an awesome idea. Instead of cutting it up and moving it, they carved a tunnel right through the trunk! The tunnel is 8 feet wide and 8 feet tall, just barely big enough for a car to squeeze through. When we drive through it, look at the walls around you. You'll be completely inside a tree that was alive when kings and queens ruled the world! And even though this tree has been lying here for almost 90 years, it still hasn't rotted away. That's because sequoia wood has special natural chemicals that protect it from rotting and insects!",
+facts:[{i:"🌧️",t:"This tree was over <strong>1,000 years old</strong> when it fell in 1937! It survived fires, storms, and drought for centuries before that one big storm finally knocked it down."},{i:"🪵",t:"Sequoia wood has <strong>natural chemicals</strong> that fight off rot and insects. That's why this log still looks solid after almost 90 years on the ground!"}],
+quiz:{q:"Why hasn't this fallen tree rotted away after almost 90 years?",o:["Rangers paint it every year","Sequoia wood naturally resists rotting","It's actually made of stone","It's too cold to rot"],c:1,e:"Sequoia wood has special natural chemicals that fight off rot and insects! That's why ancient sequoia logs can lie on the ground for hundreds of years and still be solid."},
+act:"When we drive through, look at how thick the walls of the trunk are on each side. After driving through, get out and stand next to the log. Is it taller than you? Taller than Mom and Dad? Look for the growth rings on the cut end!"},
+
+{emoji:"🌸",name:"Crescent Meadow",sub:"Coming up: fairy tale meadow!",color:"#e4f5dd",
+nar:"Our last big stop is somewhere really magical. We're going to visit Crescent Meadow, and the famous explorer John Muir loved this place so much he called it the Gem of the Sierra. Picture this: a beautiful green meadow, shaped like a crescent moon, completely surrounded by a wall of giant sequoia trees. It looks like something out of a fairy tale! Now here's why I need you to be very quiet and very observant when we get there. This meadow is home to all kinds of animals. You might spot mule deer with big floppy ears munching on grass. You might see a furry marmot sunbathing on a rock. You might even spot a black bear! Don't worry, they're shy and will walk away. And near the meadow, there's something really cool called Tharp's Log. It's a giant fallen sequoia that a man named Hale Tharp hollowed out and turned into a tiny house back in the 1860s! You can actually peek inside and see where he lived!",
+facts:[{i:"🦌",t:"The meadow is home to <strong>mule deer, black bears, marmots, coyotes, and over 200 species of birds</strong>. When we arrive, move quietly and see how many you can spot!"},{i:"🏠",t:"<strong>Tharp's Log</strong> is a fallen sequoia that was turned into a <strong>tiny one-room house</strong> in the 1860s! That's over 160 years ago. We can peek inside!"}],
+quiz:{q:"What did the famous explorer John Muir call Crescent Meadow?",o:["The Green Room","Gem of the Sierra","Bear Paradise","The Secret Garden"],c:1,e:"The Gem of the Sierra! He thought it was the most beautiful meadow in all of the Sierra Nevada mountains. When we get there, see if you agree with him!"},
+act:"When we arrive, it's nature detective time! Move very quietly and try to spot: a deer, any animal tracks in the mud, a wildflower you've never seen, and a bird you can hear but can't see. Then find Tharp's Log and peek inside the tree house! How many of your family members could fit in there?"}
+];
+
+let cur=0,score=0,ans={},vis=new Set([0]);
+let playing=null,loading=null,playingAll=false,waitingForAnswer=false,answerResolver=null,cancelled=false;
+const cache={};
+const persistentAudio=document.getElementById('persistentAudio');
+let audioInit=false;
+
+function initAudio(){if(audioInit)return;persistentAudio.src='data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYoRwVHAAAAAAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYoRwVHAAAAAAAAAAAAAAAAAAAA';persistentAudio.play().then(()=>{persistentAudio.pause();persistentAudio.currentTime=0;audioInit=true;}).catch(()=>{});}
+function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent||'';}
+function setStatus(msg,type){const s=document.getElementById('status');if(!s)return;if(!msg){s.className='status';return;}s.innerHTML=msg;s.className='status show '+(type||'ok');if(type!=='waiting'&&type!=='err')setTimeout(()=>{const x=document.getElementById('status');if(x)x.className='status';},4000);}
+function stopAudio(){cancelled=true;persistentAudio.pause();persistentAudio.currentTime=0;persistentAudio.onended=null;playing=null;loading=null;playingAll=false;waitingForAnswer=false;if(answerResolver){answerResolver(null);answerResolver=null;}document.querySelectorAll('.speaking,.waiting-answer').forEach(e=>{e.classList.remove('speaking','waiting-answer');});setStatus('');render();}
+async function genAudio(text,key){if(cache[key])return cache[key];const v=CFG.voices[CFG.activeVoice];const r=await fetch('https://api.elevenlabs.io/v1/text-to-speech/'+v.id,{method:'POST',headers:{'Content-Type':'application/json','xi-api-key':CFG.apiKey},body:JSON.stringify({text,model_id:'eleven_monolingual_v1',voice_settings:{stability:0.4,similarity_boost:0.8,style:0.5,use_speaker_boost:true}})});if(!r.ok)throw new Error('API '+r.status);const b=await r.blob();const u=URL.createObjectURL(b);cache[key]=u;return u;}
+function playUrl(url){return new Promise(res=>{persistentAudio.onended=()=>{persistentAudio.onended=null;res('ok');};persistentAudio.onerror=()=>{persistentAudio.onerror=null;res('err');};persistentAudio.src=url;persistentAudio.play().catch(()=>res('err'));});}
+async function speak(text,key,hlId){if(cancelled)return;loading=key;render();if(!cache[key])setStatus('🎙️ Generating voice...');if(hlId){const e=document.getElementById(hlId);if(e)e.classList.add('speaking');}try{const url=await genAudio(text,key);if(cancelled)return;setStatus('');playing=key;loading=null;render();await playUrl(url);if(cancelled)return;playing=null;document.querySelectorAll('.speaking').forEach(e=>e.classList.remove('speaking'));render();}catch(err){loading=null;playing=null;render();setStatus('Error: '+err.message,'err');}}
+function tapPlay(text,key,hlId){if(playing===key||loading===key){stopAudio();return;}stopAudio();cancelled=false;initAudio();speak(text,key,hlId);}
+function waitForAnswerPromise(){return new Promise(res=>{waitingForAnswer=true;answerResolver=res;render();setTimeout(()=>{const q=document.getElementById('quizBlock');if(q)q.scrollIntoView({behavior:'smooth',block:'center'});},300);});}
+function pause(ms){return new Promise(r=>setTimeout(r,ms));}
+
+async function playAll(){
+  if(playingAll||playing||loading){stopAudio();return;}
+  cancelled=false;playingAll=true;render();initAudio();
+  const st=stops[cur];
+  // Story
+  await speak(st.nar,'nar-'+cur,'narBlock');
+  if(cancelled)return;await pause(600);
+  // Facts
+  if(st.facts.length>0){
+    await speak("Now let me share some mind-blowing facts about what we're going to see!","fi-"+cur);
+    if(cancelled)return;await pause(400);
+    for(let i=0;i<st.facts.length;i++){await speak(strip(st.facts[i].t),'f-'+cur+'-'+i,'fact-'+cur+'-'+i);if(cancelled)return;await pause(500);}
+  }
+  // Quiz
+  if(cancelled)return;await pause(400);
+  if(ans[cur]===undefined){
+    const lb=["A","B","C","D"];
+    let qt="Alright, let's see if you were paying attention! Here's a question. "+st.quiz.q+" ";
+    st.quiz.o.forEach((o,i)=>{qt+=lb[i]+", "+o+". ";});
+    qt+="Talk about it with your family, and when you think you know the answer, tap it on the screen!";
+    await speak(qt,'qr-'+cur,'quizBlock');if(cancelled)return;
+    setStatus('👆 Tap your answer!','waiting');
+    const qEl=document.getElementById('quizBlock');if(qEl)qEl.classList.add('waiting-answer');
+    const choice=await waitForAnswerPromise();
+    if(choice===null||cancelled)return;
+    await pause(500);while((playing||loading)&&!cancelled){await pause(200);}if(cancelled)return;await pause(400);
+  }else{
+    await speak("You already got this one! The answer was, "+stops[cur].quiz.e,'qrc-'+cur,'quizBlock');if(cancelled)return;
+  }
+  // Activity preview
+  await pause(400);if(cancelled)return;
+  await speak("And here's what I want you to do when we get there! "+st.act,'act-'+cur,'actBlock');
+  if(cancelled)return;await pause(600);
+  // Next teaser
+  if(cancelled)return;
+  if(cur<stops.length-1){
+    await speak("Great job! When you're ready to hear about our next stop, tap the Next button!","out-"+cur);
+  }else{
+    await speak("That's our last stop! You now know everything about Sequoia National Park. You're going to have the BEST time today! Remember everything you learned, because when we get to each stop, you'll be the expert! High fives everyone!","out-fin");
+  }
+  playingAll=false;render();
+}
+
+function answer(i){
+  if(ans[cur]!==undefined)return;ans[cur]=i;const ok=i===stops[cur].quiz.c;if(ok)score+=10;
+  waitingForAnswer=false;const qEl=document.getElementById('quizBlock');if(qEl)qEl.classList.remove('waiting-answer');setStatus('');render();
+  const msg=ok?"OH YEAH! That's absolutely right! You were really listening! "+stops[cur].quiz.e:"Hmm, good guess, but not quite! The correct answer is, "+stops[cur].quiz.e;
+  speak(msg,'ans-'+cur+'-'+i,'quizBlock');
+  if(answerResolver){answerResolver(i);answerResolver=null;}
+}
+
+function goTo(i){stopAudio();cur=i;vis.add(i);render();window.scrollTo({top:0,behavior:'smooth'});}
+
+function render(){
+  const st=stops[cur],app=document.getElementById('app'),prog=Math.round((vis.size/stops.length)*100);
+  document.getElementById('scoreBadge').textContent='⭐ '+score+' pts';
+  const lb=["A","B","C","D"];
+  app.innerHTML=`
+  <div class="header"><h1>🌲 Sequoia Explorer</h1><p>Road trip audio guide</p><div class="badge">✨ ElevenLabs voice</div></div>
+  <div class="progress"><div class="progress-bar"><div class="progress-fill" style="width:${prog}%"></div></div><div class="progress-text">⭐ ${score} · ${vis.size}/${stops.length}</div></div>
+  <div class="pills" id="pills"></div>
+  <div class="card">
+    <div class="hero" style="background:${st.color}"><div class="hero-emoji">${st.emoji}</div><div class="hero-num">Stop ${cur+1} of ${stops.length}</div><div class="hero-title">${st.name}</div><div class="hero-sub">${st.sub}</div></div>
+    <div class="body" style="padding-top:20px">
+      <div class="voice-select" id="voiceSel"></div>
+      <button class="play-all${(playingAll||playing||loading)?' active':''}" id="playAllBtn">${(playingAll||playing||loading)?'⏹ Stop':'🔊 Play guided preview'}</button>
+      <div class="status" id="status"></div>
+      <div class="narration${playing==='nar-'+cur?' speaking':''}" id="narBlock">
+        <div class="nar-header"><div class="nar-label">🎙️ What we're about to see</div><button class="play-btn${playing==='nar-'+cur?' active':''}" id="narPlayBtn">${loading==='nar-'+cur?'⏳...':playing==='nar-'+cur?'⏹ Stop':'▶ Play'}</button></div>
+        <p>${st.nar}</p>
+      </div>
+      ${st.facts.map((f,i)=>{const fk='f-'+cur+'-'+i;return`<div class="fact${playing===fk?' speaking':''}" id="fact-${cur}-${i}" data-fk="${fk}" data-ft="${strip(f.t).replace(/"/g,'&quot;')}"><div style="font-size:22px;flex-shrink:0">${f.i}</div><div><p>${f.t}</p><div style="font-size:10px;color:#c4a84e;margin-top:4px">${loading===fk?'⏳...':playing===fk?'⏹ stop':'🔊 tap to hear'}</div></div></div>`;}).join('')}
+      <div class="quiz${(playing&&(playing.startsWith('qr')||playing.startsWith('ans')))?' speaking':''}${waitingForAnswer?' waiting-answer':''}" id="quizBlock">
+        <div class="quiz-label">🧠 Quiz time!</div>
+        <div class="quiz-q">${st.quiz.q}</div>
+        <div id="quizOpts"></div>
+        ${ans[cur]!==undefined?`<div class="quiz-result" style="background:${ans[cur]===st.quiz.c?'#d4ffd4':'#ffd4d4'};color:${ans[cur]===st.quiz.c?'#2a6b2a':'#6b2a2a'}">${ans[cur]===st.quiz.c?'🎉 ':'😅 '}${st.quiz.e}</div>`:''}
+      </div>
+      <div class="activity${playing==='act-'+cur?' speaking':''}" id="actBlock" data-act="${st.act.replace(/"/g,'&quot;')}">
+        <div class="act-label">🎯 When we arrive <span style="font-size:10px;opacity:0.5">${loading==='act-'+cur?'⏳':playing==='act-'+cur?'⏹ stop':'🔊 tap'}</span></div>
+        <p>${st.act}</p>
+      </div>
+    </div>
+  </div>
+  <div class="nav"><button class="prev" ${cur===0?'disabled':''} id="prevBtn">← Back</button><button class="next" ${cur===stops.length-1?'disabled':''} id="nextBtn">${cur===stops.length-1?'🎉 Done!':'Next stop →'}</button></div>`;
+  document.getElementById('playAllBtn').addEventListener('click',playAll);
+  document.getElementById('narPlayBtn').addEventListener('click',function(e){e.stopPropagation();tapPlay(st.nar,'nar-'+cur,'narBlock');});
+  document.getElementById('prevBtn').addEventListener('click',function(){if(cur>0)goTo(cur-1);});
+  document.getElementById('nextBtn').addEventListener('click',function(){if(cur<stops.length-1)goTo(cur+1);});
+  document.getElementById('actBlock').addEventListener('click',function(){tapPlay('When we arrive, here is what to do! '+st.act,'act-'+cur,'actBlock');});
+  document.querySelectorAll('.fact[data-fk]').forEach(el=>{el.addEventListener('click',function(){tapPlay(this.dataset.ft,this.dataset.fk,this.id);});});
+  const pills=document.getElementById('pills');
+  stops.forEach((_,i)=>{const p=document.createElement('button');p.className='pill'+(i===cur?' active':vis.has(i)?' visited':'');p.textContent=i+1;p.addEventListener('click',()=>goTo(i));pills.appendChild(p);});
+  const vsel=document.getElementById('voiceSel');
+  CFG.voices.forEach((v,i)=>{const b=document.createElement('button');b.className='vbtn'+(i===CFG.activeVoice?' active':'');b.textContent=v.name;b.addEventListener('click',()=>{CFG.activeVoice=i;Object.keys(cache).forEach(k=>delete cache[k]);render();});vsel.appendChild(b);});
+  const qo=document.getElementById('quizOpts');const done=ans[cur]!==undefined;
+  st.quiz.o.forEach((o,i)=>{const b=document.createElement('button');b.className='qbtn'+(done&&i===st.quiz.c?' correct':'')+(done&&i===ans[cur]&&i!==st.quiz.c?' wrong':'')+(waitingForAnswer&&!done?' pulse':'');b.disabled=done;b.textContent=lb[i]+'. '+o;b.addEventListener('click',()=>answer(i));if(done&&i!==st.quiz.c&&i!==ans[cur])b.style.opacity='0.4';qo.appendChild(b);});
+}
+render();
+</script>
+</body>
+</html>
