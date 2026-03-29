@@ -17,7 +17,7 @@ body{font-family:'Fredoka',sans-serif;background:#1a3c2a;min-height:100vh;-webki
 .progress-bar{flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
 .progress-fill{height:100%;background:linear-gradient(90deg,#a8e6cf,#ffd3b6);border-radius:4px;transition:width 0.5s}
 .progress-text{font-size:12px;color:#6dbb91;font-weight:500}
-.pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;-webkit-overflow-scrolling:touch}
+.pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px}
 .pills::-webkit-scrollbar{display:none}
 .pill{flex-shrink:0;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;border:none;cursor:pointer;background:rgba(255,255,255,0.08);color:#6dbb91}
 .pill.active{background:#a8e6cf;color:#1a3c2a;transform:scale(1.05)}
@@ -33,11 +33,13 @@ body{font-family:'Fredoka',sans-serif;background:#1a3c2a;min-height:100vh;-webki
 .play-all{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:16px;border:2px solid #a8e6cf;background:linear-gradient(135deg,#f0faf4,#e8f5ee);cursor:pointer;font-family:inherit;font-size:15px;font-weight:600;color:#2a6b3c;margin-bottom:8px;transition:all 0.2s}
 .play-all:active{transform:scale(0.97)}
 .play-all.active{background:#a8e6cf;color:#1a3c2a}
-.status{text-align:center;font-size:12px;padding:6px;margin-bottom:8px;border-radius:8px;display:none}
+.status{text-align:center;font-size:12px;padding:8px 12px;margin-bottom:8px;border-radius:10px;display:none;line-height:1.4}
 .status.show{display:block}
 .status.ok{color:#6dbb91;background:rgba(168,230,207,0.1)}
 .status.err{color:#ff9999;background:rgba(255,100,100,0.1)}
-.voice-select{display:flex;gap:6px;overflow-x:auto;margin-bottom:16px;padding-bottom:4px}
+.status.waiting{color:#856404;background:#fff8e8;border:2px solid #ffc107;font-weight:600;font-size:14px;animation:glow 1.5s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(255,193,7,0.3)}50%{box-shadow:0 0 0 8px rgba(255,193,7,0)}}
+.voice-select{display:flex;gap:6px;overflow-x:auto;margin-bottom:16px}
 .voice-select::-webkit-scrollbar{display:none}
 .vbtn{flex-shrink:0;padding:5px 12px;border-radius:10px;border:1.5px solid rgba(168,230,207,0.3);background:rgba(255,255,255,0.06);font-family:inherit;font-size:11px;font-weight:500;color:#6dbb91;cursor:pointer}
 .vbtn.active{background:rgba(168,230,207,0.2);border-color:#a8e6cf;color:#a8e6cf}
@@ -46,25 +48,24 @@ body{font-family:'Fredoka',sans-serif;background:#1a3c2a;min-height:100vh;-webki
 .nar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .nar-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#5a8a6e}
 .play-btn{padding:6px 14px;border-radius:14px;border:2px solid #a8e6cf;background:#fff;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;color:#2a6b3c}
-.play-btn:active{transform:scale(0.95)}
 .play-btn.active{background:#a8e6cf;color:#1a3c2a}
 .narration p{font-family:'Patrick Hand',cursive;font-size:17px;color:#2a5a3c;line-height:1.7}
 .fact{background:#fff8e8;border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;border:2px solid #ffe4a8;cursor:pointer;transition:all 0.3s}
 .fact.speaking{border-color:#a8e6cf;box-shadow:0 0 12px rgba(168,230,207,0.2)}
-.fact-icon{font-size:22px;flex-shrink:0}
 .fact p{font-size:14px;color:#6b5620;line-height:1.5}
 .fact strong{font-weight:600;color:#4a3a10}
-.fact-hint{font-size:10px;color:#c4a84e;margin-top:4px}
 .quiz{background:#f0f0ff;border-radius:16px;padding:16px 18px;margin-bottom:12px;border:2px solid #d4d4ff;transition:all 0.3s}
-.quiz.speaking{border-color:#a8e6cf}
+.quiz.speaking{border-color:#a8e6cf;box-shadow:0 0 16px rgba(168,230,207,0.3)}
+.quiz.waiting-answer{border-color:#ffc107;box-shadow:0 0 16px rgba(255,193,7,0.3);animation:glow 1.5s infinite}
 .quiz-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#6b6baa;margin-bottom:8px}
 .quiz-q{font-size:15px;font-weight:600;color:#3a3a6b;margin-bottom:12px;line-height:1.4}
-.quiz-opts{display:grid;gap:8px}
-.qbtn{padding:10px 14px;border-radius:12px;border:2px solid #d4d4ff;background:#fff;font-family:inherit;font-size:14px;color:#3a3a6b;cursor:pointer;text-align:left;font-weight:500;transition:all 0.2s}
+.qbtn{display:block;width:100%;padding:10px 14px;border-radius:12px;border:2px solid #d4d4ff;background:#fff;font-family:inherit;font-size:14px;color:#3a3a6b;cursor:pointer;text-align:left;font-weight:500;transition:all 0.2s;margin-bottom:8px}
 .qbtn.correct{background:#d4ffd4;border-color:#4CAF50;color:#2a6b2a}
 .qbtn.wrong{background:#ffd4d4;border-color:#e57373;color:#6b2a2a}
-.qbtn:disabled{opacity:0.7;cursor:default}
-.quiz-result{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:500}
+.qbtn:disabled{cursor:default}
+.qbtn.pulse{animation:btnpulse 1s infinite}
+@keyframes btnpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02);border-color:#ffc107}}
+.quiz-result{margin-top:4px;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:500}
 .activity{background:#fff0f5;border-radius:16px;padding:14px 16px;margin-bottom:10px;border:2px solid #ffcce0;cursor:pointer;transition:all 0.3s}
 .activity.speaking{border-color:#a8e6cf}
 .act-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#aa5a7a;margin-bottom:6px}
@@ -80,294 +81,105 @@ body{font-family:'Fredoka',sans-serif;background:#1a3c2a;min-height:100vh;-webki
 <body>
 <div class="app" id="app"></div>
 <div class="score" id="scoreBadge">⭐ 0 pts</div>
-
 <script>
-const CFG = {
-  apiKey: "sk_7c940812c741e36d24a0e90777e283fda59477a331cfc480",
-  voices: [
-    {id:"21m00Tcm4TlvDq8ikWAM",name:"Rachel",desc:"warm female"},
-    {id:"EXAVITQu4vr4xnSDxMaL",name:"Sarah",desc:"soft female"},
-    {id:"pNInz6obpgDQGcFmaJgB",name:"Adam",desc:"warm male"},
-    {id:"TxGEqnHWrfWFTfGW9XjX",name:"Josh",desc:"deep male"},
-    {id:"ThT5KcBeYPX3keUQqHPh",name:"Dorothy",desc:"storyteller"},
-    {id:"VJwFZoxTZo5aI0IowiXA",name:"Your voice",desc:"custom"},
-  ],
-  activeVoice: 0
-};
-
-const stops = [
-  {emoji:"🚗",name:"Start of the adventure!",sub:"North Hills → Sequoia",color:"#d4edda",
-  nar:"Hey explorers! Buckle up... because today we're going on an AMAZING adventure to see the BIGGEST trees in the entire world! We're driving from North Hills all the way up into the mountains. The trees we're going to see are called Giant Sequoias. And they've been alive for THOUSANDS of years. Way before dinosaurs disappeared! Are you ready? Let's GO!",
-  facts:[{i:"🌲",t:"The trees we're going to see are so big that if you could hollow one out, you could fit a <strong>whole house inside</strong>!"},{i:"🚙",t:"We're driving about <strong>200 miles</strong> today — that's like driving across 3,000 football fields!"}],
-  quiz:{q:"How old is the oldest Giant Sequoia?",o:["100 years","500 years","Over 3,000 years","1 million years"],c:2,e:"Over 3,000 years old! They were big trees when the Egyptians built the pyramids!"},
-  act:"Look out the window! Count how many car types you spot before Visalia. Can you find a red truck?"},
-
-  {emoji:"🪨",name:"Hospital Rock",sub:"Ancient paintings on rocks",color:"#f5eedd",
-  nar:"Welcome to Hospital Rock! See those marks on the big rocks? Those aren't just scratches — they're PAINTINGS made by the Potwisha people hundreds and hundreds of years ago! They used to live right here by this river. They ground acorns into food on these rocks and painted pictures to tell stories. Can you imagine living here with no houses, no cars, no phones? Just the river, the mountains, and the stars?",
-  facts:[{i:"🎨",t:"The rock paintings are called <strong>pictographs</strong>. Some are over <strong>500 years old</strong>!"},{i:"🏔️",t:"The Potwisha people used smooth holes in rocks as <strong>bowls to crush acorns</strong> into flour."},{i:"💧",t:"The river is called the <strong>Kaweah River</strong>. Kaweah comes from a Native American word!"}],
-  quiz:{q:"What did the Potwisha use rock holes for?",o:["Baby pools","Crushing acorns","Hiding treasure","Collecting rain"],c:1,e:"They ground acorns into flour in these stone bowls!"},
-  act:"Find the pictographs on the rock! How many shapes can you spot? Draw one in your notebook!"},
-
-  {emoji:"🕳️",name:"Tunnel Rock",sub:"Drive through a boulder!",color:"#dde5f5",
-  nar:"Hold on tight... we're about to drive THROUGH a giant rock! A long time ago, this huge boulder was blocking the road. Instead of moving it, because it's WAY too heavy, workers cut a tunnel right through the middle! When you go through, look up at the ceiling. You're inside a rock that weighs more than 100 elephants!",
-  facts:[{i:"⛏️",t:"Workers used <strong>dynamite and hand tools</strong> to carve through solid granite!"},{i:"🐘",t:"This boulder weighs more than <strong>100 elephants</strong> stacked together!"}],
-  quiz:{q:"Why did workers tunnel through this rock?",o:["For fun","It blocked the road","Bears inside","Made of chocolate"],c:1,e:"It was blocking the road! Too heavy to move, so they carved through it!"},
-  act:"Look up at the rock ceiling as you drive through! It's been here for millions of years!"},
-
-  {emoji:"🏛️",name:"Giant Forest Museum",sub:"Secrets of the sequoias",color:"#d4edda",
-  nar:"Welcome to the Giant Forest! Before we see the big trees, let's learn their secrets. Did you know that Giant Sequoias can ONLY grow right here in California? Nowhere else in the entire world! They need a special recipe. Lots of snow in winter. Warm dry summers. And they only grow between 5,000 and 7,000 feet up in the mountains. They're very picky trees!",
-  facts:[{i:"🌎",t:"Giant Sequoias grow <strong>ONLY in California</strong> — about 75 groves in the whole world!"},{i:"🔥",t:"Sequoias NEED fire! Their bark is <strong>up to 3 feet thick</strong> to survive it!"},{i:"🌱",t:"A sequoia seed is the size of an <strong>oatmeal flake</strong> — but grows into the biggest tree on Earth!"}],
-  quiz:{q:"How thick can sequoia bark get?",o:["Like paper","1 inch","Up to 3 FEET!","10 feet"],c:2,e:"Up to 3 feet! As wide as your whole arm is long!"},
-  act:"Find the tree cross-section in the museum. Count the rings — each ring is 1 year. Find the ring from your birth year!"},
-
-  {emoji:"🌲",name:"General Sherman Tree",sub:"BIGGEST tree on Earth!",color:"#d9f0dc",
-  nar:"OK explorers... are you ready? Are you ready to meet the BIGGEST living thing on the ENTIRE PLANET? This is General Sherman. It's not just the biggest tree. It's the biggest living thing that has EVER existed! It's taller than a 25 story building. Its trunk is so wide that if it was hollow, you could drive a car through it! It weighs as much as 15 blue whales. This tree was already 1,000 years old... when the Roman Empire fell. Just stand here... and look up. Way, way, way up. Can you even see the top?",
-  facts:[{i:"📏",t:"General Sherman is <strong>275 feet tall</strong> — taller than the Statue of Liberty!"},{i:"⚖️",t:"It weighs <strong>2.7 MILLION pounds</strong> — heavier than 15 blue whales!"},{i:"📅",t:"This tree is <strong>2,200 years old</strong>. A baby when Ancient Rome was at its peak!"},{i:"🌊",t:"Every year it grows enough new wood to make a <strong>whole new 60-foot tree</strong>!"}],
-  quiz:{q:"How much does General Sherman weigh?",o:["A car","10 elephants","15 blue whales","The Moon"],c:2,e:"About 2.7 million pounds — 15 blue whales! Still growing every year!"},
-  act:"Try to wrap your arms around the trunk. Get your family to hold hands around it. You can't! It takes 25 people!"},
-
-  {emoji:"🧗",name:"Moro Rock",sub:"350 stairs to the top!",color:"#f5dddd",
-  nar:"Look UP! See that giant dome of rock? We're going to climb ALL the way to the tippy top! There are exactly 350 steps carved right into the granite. It might sound like a lot, but you guys are tough! When you get to the top... you'll see for a HUNDRED MILES in every direction. Mountains, valleys, forests. And maybe even clouds below you! Ready to climb? Let's count the steps together!",
-  facts:[{i:"📐",t:"Moro Rock is <strong>6,725 feet</strong> above sea level — over a mile high!"},{i:"👀",t:"On a clear day you can see <strong>over 100 miles</strong> from the top!"},{i:"🪨",t:"This rock is <strong>granite</strong> — the same rock used to build the pyramids!"}],
-  quiz:{q:"How many steps to the top?",o:["50","150","350","1,000"],c:2,e:"Exactly 350! Count them on the way up!"},
-  act:"Count every step going up! Write your number at the top. Did you get 350?"},
-
-  {emoji:"🚙",name:"Tunnel Log",sub:"Drive THROUGH a tree!",color:"#dde8f5",
-  nar:"This is SO cool! We're about to drive our car right through the middle of a tree! This sequoia fell down in 1937 during a big storm. Instead of cutting it up, park rangers carved a tunnel through it so cars could drive through! How cool is that? Look at how thick the trunk is. You're driving through a tree that was alive for over a thousand years!",
-  facts:[{i:"🌧️",t:"This tree fell in <strong>1937</strong> — almost 90 years ago!"},{i:"📐",t:"The tunnel is <strong>8 feet wide and 8 feet tall</strong> — just enough for a car!"},{i:"🪵",t:"It will take <strong>hundreds of years</strong> to decompose — sequoia wood resists rotting!"}],
-  quiz:{q:"When did this sequoia fall?",o:["Last year","In 1937","In 1492","Million years ago"],c:1,e:"In 1937 during a big storm! Almost 90 years ago!"},
-  act:"After driving through, stand next to the trunk. It's taller than the car even on its side!"},
-
-  {emoji:"🌸",name:"Crescent Meadow",sub:"Gem of the Sierra",color:"#e4f5dd",
-  nar:"Shhh... listen. Hear how quiet it is? This magical meadow is called the Gem of the Sierra. And when you see it, you'll understand why. It's like stepping into a fairy tale. A green meadow surrounded by a wall of the biggest trees on Earth. Keep your eyes open for deer. Black bears. Don't worry, they're shy! Marmots and butterflies. Walk softly... and see how many animals you can spot!",
-  facts:[{i:"🦌",t:"You might see <strong>mule deer, black bears, marmots, and coyotes</strong>!"},{i:"🌼",t:"In spring the meadow fills with <strong>wildflowers</strong> — lupines, shooting stars, and paintbrush!"},{i:"🏠",t:"Nearby is <strong>Tharp's Log</strong> — a sequoia turned into a <strong>tiny house</strong> in the 1860s!"}],
-  quiz:{q:"What's Crescent Meadow's nickname?",o:["The Big Lawn","Gem of the Sierra","Bear Meadow","Tree Town"],c:1,e:"Gem of the Sierra! John Muir called it the most beautiful meadow in the Sierra Nevada."},
-  act:"Scavenger hunt! Find: a huge pinecone, an animal track, a new flower, a bird you hear but can't see, and the biggest nearby tree!"},
+const CFG={apiKey:"sk_7c940812c741e36d24a0e90777e283fda59477a331cfc480",voices:[{id:"21m00Tcm4TlvDq8ikWAM",name:"Rachel"},{id:"EXAVITQu4vr4xnSDxMaL",name:"Sarah"},{id:"pNInz6obpgDQGcFmaJgB",name:"Adam"},{id:"TxGEqnHWrfWFTfGW9XjX",name:"Josh"},{id:"ThT5KcBeYPX3keUQqHPh",name:"Dorothy"},{id:"VJwFZoxTZo5aI0IowiXA",name:"Your voice"}],activeVoice:0};
+const stops=[
+{emoji:"🚗",name:"Start of the adventure!",sub:"North Hills → Sequoia",color:"#d4edda",nar:"Hey explorers! Buckle up... because today we're going on an AMAZING adventure to see the BIGGEST trees in the entire world! We're driving from North Hills all the way up into the mountains. The trees we're going to see are called Giant Sequoias. And they've been alive for THOUSANDS of years. Way before dinosaurs disappeared! Are you ready? Let's GO!",facts:[{i:"🌲",t:"The trees we're going to see are so big that if you could hollow one out, you could fit a <strong>whole house inside</strong>!"},{i:"🚙",t:"We're driving about <strong>200 miles</strong> today — that's like driving across 3,000 football fields!"}],quiz:{q:"How old is the oldest Giant Sequoia?",o:["100 years","500 years","Over 3,000 years","1 million years"],c:2,e:"Over 3,000 years old! They were big trees when the Egyptians built the pyramids!"},act:"Look out the window! Count how many car types you spot before Visalia. Can you find a red truck?"},
+{emoji:"🪨",name:"Hospital Rock",sub:"Ancient paintings on rocks",color:"#f5eedd",nar:"Welcome to Hospital Rock! See those marks on the big rocks? Those aren't just scratches — they're PAINTINGS made by the Potwisha people hundreds and hundreds of years ago! They used to live right here by this river. They ground acorns into food on these rocks and painted pictures to tell stories. Can you imagine living here with no houses, no cars, no phones? Just the river, the mountains, and the stars?",facts:[{i:"🎨",t:"The rock paintings are called <strong>pictographs</strong>. Some are over <strong>500 years old</strong>!"},{i:"🏔️",t:"The Potwisha people used smooth holes in rocks as <strong>bowls to crush acorns</strong> into flour."},{i:"💧",t:"The river is called the <strong>Kaweah River</strong>. Kaweah comes from a Native American word!"}],quiz:{q:"What did the Potwisha use rock holes for?",o:["Baby pools","Crushing acorns","Hiding treasure","Collecting rain"],c:1,e:"They ground acorns into flour in these stone bowls!"},act:"Find the pictographs on the rock! How many shapes can you spot? Draw one in your notebook!"},
+{emoji:"🕳️",name:"Tunnel Rock",sub:"Drive through a boulder!",color:"#dde5f5",nar:"Hold on tight... we're about to drive THROUGH a giant rock! A long time ago, this huge boulder was blocking the road. Instead of moving it, because it's WAY too heavy, workers cut a tunnel right through the middle! When you go through, look up at the ceiling. You're inside a rock that weighs more than 100 elephants!",facts:[{i:"⛏️",t:"Workers used <strong>dynamite and hand tools</strong> to carve through solid granite!"},{i:"🐘",t:"This boulder weighs more than <strong>100 elephants</strong> stacked together!"}],quiz:{q:"Why did workers tunnel through this rock?",o:["For fun","It blocked the road","Bears inside","Made of chocolate"],c:1,e:"It was blocking the road! Too heavy to move, so they carved through it!"},act:"Look up at the rock ceiling as you drive through! It's been here for millions of years!"},
+{emoji:"🏛️",name:"Giant Forest Museum",sub:"Secrets of the sequoias",color:"#d4edda",nar:"Welcome to the Giant Forest! Before we see the big trees, let's learn their secrets. Did you know that Giant Sequoias can ONLY grow right here in California? Nowhere else in the entire world! They need a special recipe. Lots of snow in winter. Warm dry summers. And they only grow between 5,000 and 7,000 feet up in the mountains. They're very picky trees!",facts:[{i:"🌎",t:"Giant Sequoias grow <strong>ONLY in California</strong> — about 75 groves in the whole world!"},{i:"🔥",t:"Sequoias NEED fire! Their bark is <strong>up to 3 feet thick</strong> to survive it!"},{i:"🌱",t:"A sequoia seed is the size of an <strong>oatmeal flake</strong> — but grows into the biggest tree on Earth!"}],quiz:{q:"How thick can sequoia bark get?",o:["Like paper","1 inch","Up to 3 FEET!","10 feet"],c:2,e:"Up to 3 feet! As wide as your whole arm is long!"},act:"Find the tree cross-section in the museum. Count the rings — each is 1 year. Find the ring from your birth year!"},
+{emoji:"🌲",name:"General Sherman Tree",sub:"BIGGEST tree on Earth!",color:"#d9f0dc",nar:"OK explorers... are you ready? Are you ready to meet the BIGGEST living thing on the ENTIRE PLANET? This is General Sherman. It's not just the biggest tree. It's the biggest living thing that has EVER existed! It's taller than a 25 story building. Its trunk is so wide that if it was hollow, you could drive a car through it! It weighs as much as 15 blue whales. This tree was already 1,000 years old... when the Roman Empire fell. Just stand here... and look up. Way, way, way up. Can you even see the top?",facts:[{i:"📏",t:"General Sherman is <strong>275 feet tall</strong> — taller than the Statue of Liberty!"},{i:"⚖️",t:"It weighs <strong>2.7 MILLION pounds</strong> — heavier than 15 blue whales!"},{i:"📅",t:"This tree is <strong>2,200 years old</strong>. A baby when Ancient Rome was at its peak!"},{i:"🌊",t:"Every year it grows enough new wood to make a <strong>whole new 60-foot tree</strong>!"}],quiz:{q:"How much does General Sherman weigh?",o:["A car","10 elephants","15 blue whales","The Moon"],c:2,e:"About 2.7 million pounds — 15 blue whales! Still growing every year!"},act:"Try to wrap your arms around the trunk. Get your family to hold hands around it. You can't! It takes 25 people!"},
+{emoji:"🧗",name:"Moro Rock",sub:"350 stairs to the top!",color:"#f5dddd",nar:"Look UP! See that giant dome of rock? We're going to climb ALL the way to the tippy top! There are exactly 350 steps carved right into the granite. It might sound like a lot, but you guys are tough! When you get to the top... you'll see for a HUNDRED MILES in every direction. Mountains, valleys, forests. And maybe even clouds below you! Ready to climb? Let's count the steps together!",facts:[{i:"📐",t:"Moro Rock is <strong>6,725 feet</strong> above sea level — over a mile high!"},{i:"👀",t:"On a clear day you can see <strong>over 100 miles</strong> from the top!"},{i:"🪨",t:"This rock is <strong>granite</strong> — the same rock used to build the pyramids!"}],quiz:{q:"How many steps to the top?",o:["50","150","350","1,000"],c:2,e:"Exactly 350! Count them on the way up!"},act:"Count every step going up! Write your number at the top. Did you get 350?"},
+{emoji:"🚙",name:"Tunnel Log",sub:"Drive THROUGH a tree!",color:"#dde8f5",nar:"This is SO cool! We're about to drive our car right through the middle of a tree! This sequoia fell down in 1937 during a big storm. Instead of cutting it up, park rangers carved a tunnel through it so cars could drive through! How cool is that? Look at how thick the trunk is. You're driving through a tree that was alive for over a thousand years!",facts:[{i:"🌧️",t:"This tree fell in <strong>1937</strong> — almost 90 years ago!"},{i:"📐",t:"The tunnel is <strong>8 feet wide and 8 feet tall</strong> — just enough for a car!"},{i:"🪵",t:"It will take <strong>hundreds of years</strong> to decompose — sequoia wood resists rotting!"}],quiz:{q:"When did this sequoia fall?",o:["Last year","In 1937","In 1492","Million years ago"],c:1,e:"In 1937 during a big storm! Almost 90 years ago!"},act:"After driving through, stand next to the trunk. It's taller than the car even on its side!"},
+{emoji:"🌸",name:"Crescent Meadow",sub:"Gem of the Sierra",color:"#e4f5dd",nar:"Shhh... listen. Hear how quiet it is? This magical meadow is called the Gem of the Sierra. And when you see it, you'll understand why. It's like stepping into a fairy tale. A green meadow surrounded by a wall of the biggest trees on Earth. Keep your eyes open for deer. Black bears. Don't worry, they're shy! Marmots and butterflies. Walk softly... and see how many animals you can spot!",facts:[{i:"🦌",t:"You might see <strong>mule deer, black bears, marmots, and coyotes</strong>!"},{i:"🌼",t:"In spring the meadow fills with <strong>wildflowers</strong> — lupines, shooting stars, and paintbrush!"},{i:"🏠",t:"Nearby is <strong>Tharp's Log</strong> — a sequoia turned into a <strong>tiny house</strong> in the 1860s!"}],quiz:{q:"What's Crescent Meadow's nickname?",o:["The Big Lawn","Gem of the Sierra","Bear Meadow","Tree Town"],c:1,e:"Gem of the Sierra! John Muir called it the most beautiful meadow in the Sierra Nevada."},act:"Scavenger hunt! Find: a huge pinecone, an animal track, a new flower, a bird you hear but can't see, and the biggest nearby tree!"}
 ];
-
-let cur=0, score=0, ans={}, vis=new Set([0]);
-let audio=null, playing=null, loading=null, playingAll=false, allQueue=[];
+let cur=0,score=0,ans={},vis=new Set([0]),audio=null,playing=null,loading=null,playingAll=false,waitingForAnswer=false,answerResolver=null;
 const cache={};
-
-function el(tag,props,...ch){
-  const e=document.createElement(tag);
-  if(props)Object.entries(props).forEach(([k,v])=>{
-    if(k==='onclick')e.addEventListener('click',v);
-    else if(k==='disabled')e.disabled=v;
-    else if(k==='className')e.className=v;
-    else if(k==='innerHTML')e.innerHTML=v;
-    else e.style[k]=v;
-  });
-  ch.flat().forEach(c=>{if(typeof c==='string')e.appendChild(document.createTextNode(c));else if(c)e.appendChild(c);});
-  return e;
-}
-
-function setStatus(msg,isErr){
-  const s=document.getElementById('status');
-  if(!s)return;
-  s.textContent=msg;
-  s.className='status show'+(isErr?' err':' ok');
-  if(!isErr&&msg)setTimeout(()=>{s.className='status';},4000);
-}
-
-function stopAudio(){
-  if(audio){audio.pause();audio=null;}
-  playing=null;loading=null;playingAll=false;allQueue=[];
-  document.querySelectorAll('.speaking').forEach(e=>e.classList.remove('speaking'));
-  render();
-}
-
-async function genAudio(text,key){
-  if(cache[key])return cache[key];
-  const voice=CFG.voices[CFG.activeVoice];
-  const resp=await fetch('https://api.elevenlabs.io/v1/text-to-speech/'+voice.id,{
-    method:'POST',
-    headers:{'Content-Type':'application/json','xi-api-key':CFG.apiKey},
-    body:JSON.stringify({text,model_id:'eleven_monolingual_v1',voice_settings:{stability:0.4,similarity_boost:0.8,style:0.5,use_speaker_boost:true}})
-  });
-  if(!resp.ok)throw new Error('API error '+resp.status);
-  const blob=await resp.blob();
-  const url=URL.createObjectURL(blob);
-  cache[key]=url;
-  return url;
-}
-
-async function playSection(text,key,hlId,onDone){
-  stopAudio();
-  loading=key;render();
-  setStatus('🎙️ Generating voice...'+(!cache[key]?' First time takes a few seconds.':''),false);
-  if(hlId){const e=document.getElementById(hlId);if(e)e.classList.add('speaking');}
-  try{
-    const url=await genAudio(text,key);
-    setStatus('');
-    audio=new Audio(url);
-    playing=key;loading=null;render();
-    audio.onended=()=>{audio=null;playing=null;document.querySelectorAll('.speaking').forEach(e=>e.classList.remove('speaking'));render();if(onDone)onDone();};
-    audio.onerror=()=>{playing=null;render();setStatus('Playback error',true);};
-    await audio.play();
-  }catch(err){
-    loading=null;playing=null;render();
-    setStatus('Voice generation failed: '+err.message,true);
-  }
-}
-
-function tapPlay(text,key,hlId){
-  if(playing===key||loading===key){stopAudio();return;}
-  playSection(text,key,hlId);
-}
-
+function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent||'';}
+function setStatus(msg,type){const s=document.getElementById('status');if(!s)return;if(!msg){s.className='status';return;}s.innerHTML=msg;s.className='status show '+(type||'ok');if(type!=='waiting'&&type!=='err')setTimeout(()=>{const x=document.getElementById('status');if(x&&x.innerHTML===msg)x.className='status';},4000);}
+function stopAudio(){if(audio){audio.pause();audio=null;}playing=null;loading=null;playingAll=false;waitingForAnswer=false;if(answerResolver){answerResolver(null);answerResolver=null;}document.querySelectorAll('.speaking,.waiting-answer').forEach(e=>{e.classList.remove('speaking');e.classList.remove('waiting-answer');});setStatus('');render();}
+async function genAudio(text,key){if(cache[key])return cache[key];const v=CFG.voices[CFG.activeVoice];const r=await fetch('https://api.elevenlabs.io/v1/text-to-speech/'+v.id,{method:'POST',headers:{'Content-Type':'application/json','xi-api-key':CFG.apiKey},body:JSON.stringify({text,model_id:'eleven_monolingual_v1',voice_settings:{stability:0.4,similarity_boost:0.8,style:0.5,use_speaker_boost:true}})});if(!r.ok)throw new Error('API '+r.status);const b=await r.blob();const u=URL.createObjectURL(b);cache[key]=u;return u;}
+function playAudioFile(url){return new Promise(res=>{audio=new Audio(url);audio.onended=()=>{audio=null;res('ok');};audio.onerror=()=>{audio=null;res('err');};audio.play().catch(()=>res('err'));});}
+async function speak(text,key,hlId){loading=key;render();if(!cache[key])setStatus('🎙️ Generating voice...');if(hlId){const e=document.getElementById(hlId);if(e)e.classList.add('speaking');}try{const url=await genAudio(text,key);setStatus('');playing=key;loading=null;render();await playAudioFile(url);playing=null;document.querySelectorAll('.speaking').forEach(e=>e.classList.remove('speaking'));render();}catch(err){loading=null;playing=null;render();setStatus('Error: '+err.message,'err');}}
+function tapPlay(text,key,hlId){if(playing===key||loading===key){stopAudio();return;}stopAudio();speak(text,key,hlId);}
+function waitForAnswerPromise(){return new Promise(res=>{waitingForAnswer=true;answerResolver=res;render();setTimeout(()=>{const q=document.getElementById('quizBlock');if(q)q.scrollIntoView({behavior:'smooth',block:'center'});},300);});}
+function pause(ms){return new Promise(r=>setTimeout(r,ms));}
 async function playAll(){
   if(playingAll||playing||loading){stopAudio();return;}
-  playingAll=true;
-  const st=stops[cur];
-  allQueue=[
-    {t:st.nar,k:'nar-'+cur,h:'narBlock'},
-    ...st.facts.map((f,i)=>({t:f.t.replace(/<[^>]*>/g,''),k:'f-'+cur+'-'+i,h:'fact-'+cur+'-'+i})),
-    {t:'Quiz time! '+st.quiz.q+'. The choices are: '+st.quiz.o.join(', or, '),k:'quiz-'+cur,h:'quizBlock'},
-    {t:'Activity challenge! '+st.act,k:'act-'+cur,h:'actBlock'},
-  ];
-  render();
-  playNext();
+  playingAll=true;render();const st=stops[cur];
+  await speak(st.nar,'nar-'+cur,'narBlock');
+  if(!playingAll)return;await pause(500);
+  if(st.facts.length>0){await speak("Here are some amazing facts!","fi-"+cur);if(!playingAll)return;
+  for(let i=0;i<st.facts.length;i++){await speak(strip(st.facts[i].t),'f-'+cur+'-'+i,'fact-'+cur+'-'+i);if(!playingAll)return;await pause(400);}}
+  if(!playingAll)return;
+  if(ans[cur]===undefined){
+    const lb=["A","B","C","D"];let qt="OK, quiz time! Here's the question. "+st.quiz.q+" ";
+    st.quiz.o.forEach((o,i)=>{qt+="Is it "+lb[i]+", "+o+"? ";});
+    qt+="Think about it... and tap your answer on the screen!";
+    await speak(qt,'qr-'+cur,'quizBlock');if(!playingAll)return;
+    setStatus('👆 Tap your answer!','waiting');
+    const qEl=document.getElementById('quizBlock');if(qEl)qEl.classList.add('waiting-answer');
+    const choice=await waitForAnswerPromise();
+    if(choice===null||!playingAll)return;
+    await pause(500);while(playing||loading){await pause(300);}await pause(300);
+  }else{await speak("You already answered this one! "+st.quiz.e,'qrc-'+cur,'quizBlock');if(!playingAll)return;}
+  await pause(400);if(!playingAll)return;
+  await speak("And now, your activity challenge! "+st.act,'act-'+cur,'actBlock');if(!playingAll)return;
+  await pause(500);if(!playingAll)return;
+  if(cur<stops.length-1)await speak("Great job explorers! When you're ready, tap Next for the next stop!","out-"+cur);
+  else await speak("Amazing! You've completed the entire Sequoia Explorer Guide! You are now official Sequoia Explorers!","out-fin");
+  playingAll=false;render();
 }
-
-function playNext(){
-  if(!playingAll||!allQueue.length){playingAll=false;render();return;}
-  const item=allQueue.shift();
-  playSection(item.t,item.k,item.h,()=>{if(playingAll)setTimeout(playNext,600);});
-}
-
 function answer(i){
-  if(ans[cur]!==undefined)return;
-  ans[cur]=i;
-  if(i===stops[cur].quiz.c)score+=10;
-  render();
-  const ok=i===stops[cur].quiz.c;
-  const msg=ok?'Yay, correct! '+stops[cur].quiz.e:'Oops, not quite. '+stops[cur].quiz.e;
-  setTimeout(()=>playSection(msg,'ans-'+cur+'-'+i,'quizBlock'),300);
+  if(ans[cur]!==undefined)return;ans[cur]=i;const ok=i===stops[cur].quiz.c;if(ok)score+=10;
+  waitingForAnswer=false;const qEl=document.getElementById('quizBlock');if(qEl)qEl.classList.remove('waiting-answer');setStatus('');render();
+  const msg=ok?"YES! That's correct! Amazing job! "+stops[cur].quiz.e:"Oops, not quite! Good try though! The answer is, "+stops[cur].quiz.e;
+  speak(msg,'ans-'+cur+'-'+i,'quizBlock');
+  if(answerResolver){answerResolver(i);answerResolver=null;}
 }
-
 function goTo(i){stopAudio();cur=i;vis.add(i);render();window.scrollTo({top:0,behavior:'smooth'});}
-
 function render(){
-  const st=stops[cur];
-  const app=document.getElementById('app');
-  const prog=Math.round((vis.size/stops.length)*100);
+  const st=stops[cur],app=document.getElementById('app'),prog=Math.round((vis.size/stops.length)*100);
   document.getElementById('scoreBadge').textContent='⭐ '+score+' pts';
-
-  app.innerHTML='';
-
-  // Header
-  const hdr=el('div',{className:'header'});
-  hdr.innerHTML='<h1>🌲 Sequoia Explorer</h1><p>Interactive audio guide for kids</p><div class="badge">✨ ElevenLabs natural voice</div>';
-  app.appendChild(hdr);
-
-  // Progress
-  const prg=el('div',{className:'progress'});
-  prg.innerHTML='<div class="progress-bar"><div class="progress-fill" style="width:'+prog+'%"></div></div><div class="progress-text">⭐ '+score+' · '+vis.size+'/'+stops.length+'</div>';
-  app.appendChild(prg);
-
+  const lb=["A","B","C","D"];
+  app.innerHTML=`
+  <div class="header"><h1>🌲 Sequoia Explorer</h1><p>Interactive audio guide for kids</p><div class="badge">✨ ElevenLabs voice</div></div>
+  <div class="progress"><div class="progress-bar"><div class="progress-fill" style="width:${prog}%"></div></div><div class="progress-text">⭐ ${score} · ${vis.size}/${stops.length}</div></div>
+  <div class="pills" id="pills"></div>
+  <div class="card">
+    <div class="hero" style="background:${st.color}"><div class="hero-emoji">${st.emoji}</div><div class="hero-num">Stop ${cur+1} of ${stops.length}</div><div class="hero-title">${st.name}</div><div class="hero-sub">${st.sub}</div></div>
+    <div class="body" style="padding-top:20px">
+      <div class="voice-select" id="voiceSel"></div>
+      <button class="play-all${(playingAll||playing||loading)?' active':''}" onclick="playAll()">${(playingAll||playing||loading)?'⏹ Stop':'🔊 Play full guided tour'}</button>
+      <div class="status" id="status"></div>
+      <div class="narration${playing==='nar-'+cur?' speaking':''}" id="narBlock">
+        <div class="nar-header"><div class="nar-label">🎙️ Story time</div><button class="play-btn${playing==='nar-'+cur?' active':''}" onclick="event.stopPropagation();tapPlay(\`${st.nar.replace(/`/g,"'")}\`,'nar-${cur}','narBlock')">${loading==='nar-'+cur?'⏳...':playing==='nar-'+cur?'⏹ Stop':'▶ Play'}</button></div>
+        <p>${st.nar}</p>
+      </div>
+      ${st.facts.map((f,i)=>{const fk='f-'+cur+'-'+i;return`<div class="fact${playing===fk?' speaking':''}" id="fact-${cur}-${i}" onclick="tapPlay('${strip(f.t).replace(/'/g,"\\'")}','${fk}','fact-${cur}-${i}')"><div style="font-size:22px;flex-shrink:0">${f.i}</div><div><p>${f.t}</p><div style="font-size:10px;color:#c4a84e;margin-top:4px">${loading===fk?'⏳...':playing===fk?'⏹ stop':'🔊 tap to hear'}</div></div></div>`;}).join('')}
+      <div class="quiz${playing&&(playing.startsWith('qr')||playing.startsWith('ans'))?' speaking':''}${waitingForAnswer?' waiting-answer':''}" id="quizBlock">
+        <div class="quiz-label">🧠 Quiz time!</div>
+        <div class="quiz-q">${st.quiz.q}</div>
+        <div id="quizOpts"></div>
+        ${ans[cur]!==undefined?`<div class="quiz-result" style="background:${ans[cur]===st.quiz.c?'#d4ffd4':'#ffd4d4'};color:${ans[cur]===st.quiz.c?'#2a6b2a':'#6b2a2a'}">${ans[cur]===st.quiz.c?'🎉 ':'😅 '}${st.quiz.e}</div>`:''}
+      </div>
+      <div class="activity${playing==='act-'+cur?' speaking':''}" id="actBlock" onclick="tapPlay('Activity challenge! ${st.act.replace(/'/g,"\\'")}','act-${cur}','actBlock')">
+        <div class="act-label">🎯 Activity <span style="font-size:10px;opacity:0.5">${loading==='act-'+cur?'⏳':playing==='act-'+cur?'⏹ stop':'🔊 tap'}</span></div>
+        <p>${st.act}</p>
+      </div>
+    </div>
+  </div>
+  <div class="nav"><button class="prev" ${cur===0?'disabled':''} onclick="if(cur>0)goTo(cur-1)">← Back</button><button class="next" ${cur===stops.length-1?'disabled':''} onclick="if(cur<stops.length-1)goTo(cur+1)">${cur===stops.length-1?'🎉 Done!':'Next stop →'}</button></div>`;
   // Pills
-  const pills=el('div',{className:'pills'});
-  stops.forEach((_,i)=>{
-    const p=el('button',{className:'pill'+(i===cur?' active':vis.has(i)?' visited':''),onclick:()=>goTo(i)});
-    p.textContent=i+1;
-    pills.appendChild(p);
-  });
-  app.appendChild(pills);
-
-  // Card
-  const card=el('div',{className:'card'});
-
-  // Hero
-  const hero=el('div',{className:'hero'});
-  hero.style.background=st.color;
-  hero.innerHTML='<div class="hero-emoji">'+st.emoji+'</div><div class="hero-num">Stop '+(cur+1)+' of '+stops.length+'</div><div class="hero-title">'+st.name+'</div><div class="hero-sub">'+st.sub+'</div>';
-  card.appendChild(hero);
-
-  // Body
-  const body=el('div',{className:'body'});
-  body.style.paddingTop='20px';
-
-  // Voice select
-  const vs=el('div',{className:'voice-select'});
-  CFG.voices.forEach((v,i)=>{
-    const b=el('button',{className:'vbtn'+(i===CFG.activeVoice?' active':''),onclick:()=>{CFG.activeVoice=i;render();}});
-    b.textContent=v.name;
-    vs.appendChild(b);
-  });
-  body.appendChild(vs);
-
-  // Play all
-  const pa=el('button',{className:'play-all'+((playingAll||playing||loading)?' active':''),onclick:playAll});
-  pa.textContent=(playingAll||playing||loading)?'⏹ Stop':'🔊 Read this stop aloud';
-  body.appendChild(pa);
-
-  // Status
-  const stat=el('div',{className:'status'});
-  stat.id='status';
-  body.appendChild(stat);
-
-  // Narration
-  const nar=el('div',{className:'narration'+(playing==='nar-'+cur?' speaking':''),id:'narBlock'});
-  const narH=el('div',{className:'nar-header'});
-  narH.innerHTML='<div class="nar-label">🎙️ Story time</div>';
-  const narBtn=el('button',{className:'play-btn'+(playing==='nar-'+cur?' active':''),onclick:(e)=>{e.stopPropagation();tapPlay(st.nar,'nar-'+cur,'narBlock');}});
-  narBtn.textContent=(loading==='nar-'+cur)?'⏳...':((playing==='nar-'+cur)?'⏹ Stop':'▶ Play');
-  narH.appendChild(narBtn);
-  nar.appendChild(narH);
-  const narP=el('p');
-  narP.textContent=st.nar;
-  nar.appendChild(narP);
-  body.appendChild(nar);
-
-  // Facts
-  st.facts.forEach((f,i)=>{
-    const fk='f-'+cur+'-'+i;
-    const fd=el('div',{className:'fact'+(playing===fk?' speaking':''),id:'fact-'+cur+'-'+i,onclick:()=>tapPlay(f.t.replace(/<[^>]*>/g,''),fk,'fact-'+cur+'-'+i)});
-    fd.innerHTML='<div class="fact-icon">'+f.i+'</div><div><p>'+f.t+'</p><div class="fact-hint">'+(loading===fk?'⏳ loading...':playing===fk?'⏹ tap to stop':'🔊 tap to hear')+'</div></div>';
-    body.appendChild(fd);
-  });
-
-  // Quiz
-  const qz=el('div',{className:'quiz'+(playing==='quiz-'+cur?' speaking':''),id:'quizBlock'});
-  qz.innerHTML='<div class="quiz-label">🧠 Quiz time!</div><div class="quiz-q">'+st.quiz.q+'</div>';
-  const qopts=el('div',{className:'quiz-opts'});
-  st.quiz.o.forEach((o,i)=>{
-    const done=ans[cur]!==undefined;
-    const btn=el('button',{className:'qbtn'+(done&&i===st.quiz.c?' correct':'')+(done&&i===ans[cur]&&i!==st.quiz.c?' wrong':''),disabled:done,onclick:()=>answer(i)});
-    btn.textContent=o;
-    if(done&&i!==st.quiz.c&&i!==ans[cur])btn.style.opacity='0.4';
-    qopts.appendChild(btn);
-  });
-  qz.appendChild(qopts);
-  if(ans[cur]!==undefined){
-    const res=el('div',{className:'quiz-result'});
-    res.style.background=ans[cur]===st.quiz.c?'#d4ffd4':'#ffd4d4';
-    res.style.color=ans[cur]===st.quiz.c?'#2a6b2a':'#6b2a2a';
-    res.textContent=(ans[cur]===st.quiz.c?'🎉 Correct! ':'😅 Not quite! ')+st.quiz.e;
-    qz.appendChild(res);
-  }
-  body.appendChild(qz);
-
-  // Activity
-  const act=el('div',{className:'activity'+(playing==='act-'+cur?' speaking':''),id:'actBlock',onclick:()=>tapPlay('Activity challenge! '+st.act,'act-'+cur,'actBlock')});
-  act.innerHTML='<div class="act-label">🎯 Activity <span style="font-size:10px;opacity:0.5">'+(loading==='act-'+cur?'⏳...':playing==='act-'+cur?'⏹ stop':'🔊 tap to hear')+'</span></div><p>'+st.act+'</p>';
-  body.appendChild(act);
-
-  card.appendChild(body);
-  app.appendChild(card);
-
-  // Nav
-  const nav=el('div',{className:'nav'});
-  const prevBtn=el('button',{className:'prev',disabled:cur===0,onclick:()=>{if(cur>0)goTo(cur-1);}});
-  prevBtn.textContent='← Back';
-  const nextBtn=el('button',{className:'next',disabled:cur===stops.length-1,onclick:()=>{if(cur<stops.length-1)goTo(cur+1);}});
-  nextBtn.textContent=cur===stops.length-1?'🎉 Done!':'Next stop →';
-  nav.appendChild(prevBtn);
-  nav.appendChild(nextBtn);
-  app.appendChild(nav);
+  const pills=document.getElementById('pills');
+  stops.forEach((_,i)=>{const p=document.createElement('button');p.className='pill'+(i===cur?' active':vis.has(i)?' visited':'');p.textContent=i+1;p.onclick=()=>goTo(i);pills.appendChild(p);});
+  // Voices
+  const vsel=document.getElementById('voiceSel');
+  CFG.voices.forEach((v,i)=>{const b=document.createElement('button');b.className='vbtn'+(i===CFG.activeVoice?' active':'');b.textContent=v.name;b.onclick=()=>{CFG.activeVoice=i;Object.keys(cache).forEach(k=>delete cache[k]);render();};vsel.appendChild(b);});
+  // Quiz opts
+  const qo=document.getElementById('quizOpts');const done=ans[cur]!==undefined;
+  st.quiz.o.forEach((o,i)=>{const b=document.createElement('button');b.className='qbtn'+(done&&i===st.quiz.c?' correct':'')+(done&&i===ans[cur]&&i!==st.quiz.c?' wrong':'')+(waitingForAnswer&&!done?' pulse':'');b.disabled=done;b.textContent=lb[i]+'. '+o;b.onclick=()=>answer(i);if(done&&i!==st.quiz.c&&i!==ans[cur])b.style.opacity='0.4';qo.appendChild(b);});
 }
-
 render();
 </script>
 </body>
